@@ -1,4 +1,4 @@
-# Logs
+# Логи и отладка
 logs
 *.log
 npm-debug.log*
@@ -7,12 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Папки зависимостей и сборки
 node_modules
 dist
 dist-ssr
-*.local
+.local
 
-# Editor directories and files
+# ВАЖНО: Секретные ключи (скрываем .env)
+.env
+.env.*
+!.env.example
+
+# Редакторские файлы
 .vscode/*
 !.vscode/extensions.json
 .idea
