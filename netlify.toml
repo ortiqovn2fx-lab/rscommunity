@@ -2,9 +2,6 @@
   command = "npm install && npm run build"
   publish = "dist"
 
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "zisi"
 
 # Редирект для чата
 [[redirects]]
