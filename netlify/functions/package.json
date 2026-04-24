@@ -1,0 +1,13 @@
+{
+  "name": "rs-api-functions",
+  "version": "1.0.0",
+  "description": "API functions for RS Community",
+  "main": "api.ts",
+  "dependencies": {
+    "serverless-http": "3.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
