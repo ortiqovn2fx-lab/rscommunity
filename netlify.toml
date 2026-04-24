@@ -5,5 +5,3 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-  # Это ключ: мы помечаем пакеты как внешние, чтобы esbuild их игнорировал
-  external_node_modules = ["serverless-http", "express"]
