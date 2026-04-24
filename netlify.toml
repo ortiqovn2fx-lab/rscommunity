@@ -5,3 +5,9 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "zisi"
+
+# Редирект для чата
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/index/:splat"
+  status = 200
