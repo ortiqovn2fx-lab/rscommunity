@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Post, Comment, Category } from '../types';
-import { generateReflectionPrompts, summarizeContent, enhanceNewsContent } from '../services/geminiService';
+import { summarizeContent, enhanceNewsContent } from '../services/geminiService';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, Send, User, ChevronRight, X, PanelRight, Minimize2, ArrowRight } from 'lucide-react';
 import { formatToNYDate } from '../lib/utils';
@@ -221,11 +221,12 @@ const PostModal: React.FC<PostModalProps> = ({ post, comments, onAddComment, onU
 
   const handleAISupport = async () => {
     setLoadingAI(true);
-    const [prompts, sum] = await Promise.all([
-      generateReflectionPrompts(post.content),
-      summarizeContent(post.content)
-    ]);
-    setReflectionPrompts(prompts);
+    
+    // Заменяем вызов несуществующей функции на безопасный Promise
+    // Теперь мы используем только summarizeContent
+    const sum = await summarizeContent(post.content);
+    
+    setReflectionPrompts([]); // Возвращаем пустой массив, чтобы приложение не падало
     setSummary(sum);
     setLoadingAI(false);
   };
