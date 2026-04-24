@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Category, Post } from '../types';
 import { motion } from 'motion/react';
 
+// Убедитесь, что этот путь правильный
 import { generateImagePrompt } from '../services/geminiService';
 
 interface CreatePostModalProps {
@@ -24,32 +24,47 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ onClose, onSubmit }) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Базовая валидация
+    if (!formData.title || !formData.content) {
+        alert("Please fill in the title and full content.");
+        return;
+    }
+
     setIsSubmitting(true);
     
     try {
+      // 1. Генерируем промпт на основе заголовка и контента
       const imagePrompt = await generateImagePrompt(formData.title, formData.content);
+      
+      // 2. Кодируем промпт для URL
       const encodedPrompt = encodeURIComponent(imagePrompt);
+      
+      // 3. Формируем URL для Pollinations.ai (добавляем случайный seed для уникальности)
       const generatedImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1200&height=675&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
 
+      // 4. Создаем новый пост с сгенерированным изображением
       const newPost: Post = {
         ...formData,
         id: Math.random().toString(36).substr(2, 9),
         date: new Date().toISOString(),
         author: 'RS',
-        imageUrl: generatedImageUrl,
+        imageUrl: generatedImageUrl, // <-- Присваиваем сгенерированный URL
         readingTime: formData.category === Category.ARTICLES ? '5 min read' : undefined
       };
       
+      // 5. Отправляем пост
       onSubmit(newPost);
     } catch (error) {
-      console.error("Failed to post:", error);
-      // Fallback
+      console.error("Failed to generate AI image:", error);
+      
+      // ФОЛБЭК: Если AI генерация упала, используем случайное фото (чтобы сайт не упал)
       onSubmit({
         ...formData,
         id: Math.random().toString(36).substr(2, 9),
         date: new Date().toISOString(),
         author: 'RS',
-        imageUrl: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/450`,
+        imageUrl: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/800/450`, // fallback image
       });
     } finally {
       setIsSubmitting(false);
@@ -156,7 +171,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ onClose, onSubmit }) 
               disabled={isSubmitting}
               className="px-8 py-2.5 bg-black text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed min-w-[140px]"
             >
-              {isSubmitting ? 'Generating...' : 'Publish Post'}
+              {isSubmitting ? 'Generating Image...' : 'Publish Post'}
             </button>
           </div>
         </form>
