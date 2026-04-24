@@ -4,7 +4,8 @@
   "description": "API functions for RS Community",
   "main": "api.ts",
   "dependencies": {
-    "serverless-http": "3.2.0"
+    "serverless-http": "3.2.0",
+    "express": "4.18.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

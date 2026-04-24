@@ -1,9 +1,7 @@
 [build]
-  command = "npm run build"
+  command = "npm install && npm run build"
   publish = "dist"
 
 [functions]
   directory = "netlify/functions"
-  # Это принудительно говорит Netlify: "Не ищи эту библиотеку в бандле, 
-  # она будет доступна в среде выполнения Node"
-  external_node_modules = ["serverless-http"]
+  node_bundler = "esbuild"
