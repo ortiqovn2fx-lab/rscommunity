@@ -1,39 +1,18 @@
-import express from "express";
-import serverless from "serverless-http";
-import { GoogleGenAI } from "@google/genai";
+// netlify/functions/api.ts
+const serverless = require("serverless-http");
+const express = require("express");
 
 const app = express();
+
+// Middleware для обработки JSON
 app.use(express.json());
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
-
-// Роут для суммаризации
-app.post("/api/summarize", async (req, res) => {
-  try {
-    const { content } = req.body;
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash', // используем стабильную версию
-      contents: `Summarize the following article in 3 clear, concise bullet points: \n\n ${content}`,
-    });
-    res.json({ summary: response.text });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to summarize" });
-  }
+// Пример маршрута для вашего API
+app.get("/api/hello", (req: any, res: any) => {
+  res.json({ message: "API is working!" });
 });
 
-// Роут для улучшения контента
-app.post("/api/enhance", async (req, res) => {
-  try {
-    const { title, content } = req.body;
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
-      contents: `Title: "${title}". Content: "${content}". Task: Polish transcript and provide strategic conclusion in JSON.`,
-      config: { responseMimeType: "application/json" }
-    });
-    res.json(JSON.parse(response.text || "{}"));
-  } catch (err) {
-    res.status(500).json({ error: "Failed to enhance" });
-  }
-});
+// Добавьте здесь остальные ваши маршруты...
 
-export const handler = serverless(app);
+// Экспортируем как handler для Netlify
+exports.handler = serverless(app);

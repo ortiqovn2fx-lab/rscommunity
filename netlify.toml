@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  # Это исключает serverless-http из упаковки, 
+  # позволяя использовать его из среды исполнения Netlify
+  external_node_modules = ["serverless-http"]
+
+# Указываем, что запросы /api/* должны идти к функции api.ts
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
