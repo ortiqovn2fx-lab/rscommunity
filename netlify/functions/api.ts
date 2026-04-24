@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 
 app.get("/api/hello", (req, res) => {
-  res.json({ message: "API is working!" });
+  res.json({ message: "Hello from API!" });
 });
 
-exports.handler = serverless(app);
+module.exports.handler = serverless(app);
