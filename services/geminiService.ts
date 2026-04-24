@@ -16,14 +16,7 @@ export async function enhanceNewsContent(title: string, rawContent: string) {
   });
   return response.json();
 }
-export async function generateReflectionPrompts(content: string) {
-  const response = await fetch('/api/reflect', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content })
-  });
-  return response.json();
-}
+
 export async function generateImagePrompt(title: string, content: string): Promise<string> {
   try {
     const response = await fetch('/api/generate-image-prompt', {
